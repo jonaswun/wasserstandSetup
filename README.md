@@ -20,4 +20,5 @@ Bei einem gewünschten Wasserstand von 961.55m ü. NN ergibt sich ein von der So
 Höhe = (-Prozent)+79.7
 Meereshöhe = 961.68 - (Höhe * 0.01)
 Somit ergibt sich folgender Graph: 
-[Verlauf Waserstand](https://raw.githubusercontent.com/jonaswun/wasserstandSetup/main/Doc/WasserstandVerlauf.png?raw=true)
+[Verlauf Wasserstand](https://raw.githubusercontent.com/jonaswun/wasserstandSetup/main/Doc/WasserstandVerlauf.png?raw=true)
+[test](Doc/WasserstandVerlauf.png)
