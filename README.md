@@ -14,24 +14,9 @@ Der Raspberry Pi empfängt die Daten und sendet diese unverändert als MQTT Clie
 Node Red Empfängt die Daten und sendet diese an die Influx Datenbank "wasserstand"
 
 ## Grafana 
-Grafana Empfängt die Daten und berechnet diese auf Grundlage folgender Messwerte:
+Grafana Empfängt die Daten und berechnet diese auf Grundlage folgender Annahmen:
+Bei einem gewünschten Wasserstand von 961.55m ü. NN ergibt sich ein von der Sonde gemessener Wert von 66.7%. Da die Sonde einen Messbereich von 0-100cm besitzt ergibt sich hiermit einen wert von 66.7cm. Um somit auf die Tatsächliche Höhe des Wasserstand zu kommen werden folgende Formeln verwendet.
 
-
-| Wasserhöhe in cm | Wasserstand in Prozent |
-|------------------|------------------------|
-| 9.5              | 72.1                   |
-| 9.5              | 71.5                   |
-| 10.0             | 71.0                   |
-| 10.5             | 70.5                   |
-| 10.5             | 70.8                   |
-| 11.0             | 69.5                   |
-| 11.5             | 69.0                   |
-| 12.0             | 68.5                   |
-| 12.5             | 68.0                   |
-
-Daraus ergeben sich folgende Formeln:
-
-Höhe = (Prozent*(-1))+81
-
-Meereshöhe = 961.68 - (Höhe*0.01)
-
+Höhe = (-Prozent)+79.7
+Meereshöhe = 961.68 - (Höhe * 0.01)
+Somit ergibt sich folgender Graph: 
