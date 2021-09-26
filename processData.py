@@ -4,7 +4,7 @@ import os
 import serial
 import time
 from time import strftime
-import phao.mqtt.client as mqtt
+import paho.mqtt.client as mqtt
 
 
 host = "192.168.2.179"
@@ -32,5 +32,4 @@ def sendToMQTT():
 
 sendToMQTT()
 
-"test"
 
