@@ -30,6 +30,7 @@ Grafana Empfängt die Daten und berechnet diese auf Grundlage folgender Messwert
 | 12.5             | 68.0                   |
 
 Daraus ergeben sich folgende Formeln:
+$$f(x) = \sum\limits_1^k 4x - \frac{1}{x}$$
 
 $$Height = (Percent * (-1)) + 81$$
 
