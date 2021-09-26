@@ -6,7 +6,7 @@ Um eine Spannung von 0-10V am Arduino zu messen wird diese an einem Spannungstei
 ### Datenübertraung
 Zur Datenübertragung wird eine Serielle Schnitstelle per USB verwendet. Diese überträgt die Daten mit 9600 Baud vom Arduino zum Rasbperry Pi
 
-##R aspberry Pi
+## Raspberry Pi
 ### Datenverarbeitung:
 Der Raspberry Pi empfängt die Daten und sendet diese unverändert als MQTT Client unter dem Topic "/wasserstand/percentValue" an Node Red.
 
@@ -28,3 +28,8 @@ Grafana Empfängt die Daten und berechnet diese auf Grundlage folgender Messwert
 | 11.5             | 69.0                   |
 | 12.0             | 68.5                   |
 | 12.5             | 68.0                   |
+
+Daraus ergeben sich folgende Formeln:
+
+$Height = (Percent * (-1)) + 81$
+
