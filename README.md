@@ -32,5 +32,6 @@ Grafana Empfängt die Daten und berechnet diese auf Grundlage folgender Messwert
 Daraus ergeben sich folgende Formeln:
 
 Höhe = (Prozent*(-1))+81
+
 Meereshöhe = 961.68 - (Höhe*0.01)
 
