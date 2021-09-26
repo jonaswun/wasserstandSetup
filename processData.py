@@ -32,4 +32,5 @@ def sendToMQTT():
 
 sendToMQTT()
 
+"test"
 
