@@ -31,5 +31,5 @@ Grafana Empfängt die Daten und berechnet diese auf Grundlage folgender Messwert
 
 Daraus ergeben sich folgende Formeln:
 
-$Height = (Percent * (-1)) + 81$
+$$Height = (Percent * (-1)) + 81$$
 
