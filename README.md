@@ -18,6 +18,8 @@ Grafana Empfängt die Daten und berechnet diese auf Grundlage folgender Annahmen
 Bei einem gewünschten Wasserstand von 961.55m ü. NN ergibt sich ein von der Sonde gemessener Wert von 66.7%. Da die Sonde einen Messbereich von 0-100cm besitzt ergibt sich hiermit einen wert von 66.7cm. Um somit auf die Tatsächliche Höhe des Wasserstand zu kommen werden folgende Formeln verwendet.
 
 Höhe = (-Prozent)+79.7
+
 Meereshöhe = 961.68 - (Höhe * 0.01)
+
 Somit ergibt sich folgender Graph: 
 [Verlauf Wasserstand](Doc/WasserstandVerlauf.png)
