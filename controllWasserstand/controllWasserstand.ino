@@ -5,6 +5,7 @@
 // Regelungsvariabeln
 static float sollwert;
 float hysterese;
+
 int timeBetweenMovement;
 float errorToDelayFaktor;
 bool verbose = false;
@@ -77,11 +78,11 @@ void writeData(float data)
   digitalWrite(En2, LOW);
 }
 
-int readData()
+char readData()
 {
   digitalWrite(EnTxPin, LOW); //RS485 as receiver
   digitalWrite(En2, LOW);
-  int data;
+  char data;
   if(Serial.available())
   {
     data=Serial.read(); 
@@ -90,20 +91,22 @@ int readData()
   return data;
 }
 
-int readDataNew()
+int readDataNew(int anzahlZeichen)
 {
   digitalWrite(EnTxPin, LOW); //RS485 as receiver
   digitalWrite(En2, LOW);
-  int data[10];
-  if(Serial.available())
+  char buffer[3]={};
+  int zahl; 
+  Serial.println("ReadDataNew");
+  int i=0;
+  for(i; i<anzahlZeichen; i++)
   {
-    int i=0;
-    do
-    {
-      data[i]=Serial.read();
-      ++i;
-    } while (data[i]!=(int)'\0');
+    buffer[i]=readData();  
   }
+  
+  buffer[i]="\0";
+    
+  int data = atoi(buffer);
   return data;
 }
 
@@ -165,7 +168,7 @@ void checkSollwert(float *sollwert)
   }
 }
 
-void handleRequest()
+void handleRequest(float *sollwert)
 {
   char buffer[3];
   int request = readData();
@@ -179,13 +182,13 @@ void handleRequest()
     case 50:
       //Set Sollwert
       delay(100);
-      buffer[0]=readData();
-      buffer[1]=readData();
-      buffer[2]="\0";
-      data= atoi(buffer);
-      if(data!=0)
+      data = readDataNew(2);
+      
+      if(data>0&&data<100)
       {
-       sollwert = data; 
+       *sollwert = data; 
+       Serial.println("Sollwert");
+       Serial.println(*sollwert);
       }
     break;
     case 51:
@@ -196,7 +199,7 @@ void handleRequest()
     break;
     case 53:
       // Get sollwert
-      writeData(sollwert);
+      writeData(*sollwert);
     break;
     case 54:
       //Serial.println("Zylinder Zu");
@@ -206,22 +209,19 @@ void handleRequest()
 
 void handleRequestNew()
 {
-  char buffer[3];
-  int request = readData();
-  //Serial.println(request);
+  int request = readDataNew(1);
   float data;
   switch(request)
   {
     case 49:
-      writeData(readPercent());
+      //writeData(readPercent());
     break;
     case 50:
       //Set Sollwert
+      //Serial.println("Fall 50");
       delay(100);
-      buffer[0]=readData();
-      buffer[1]=readData();
-      buffer[2]="\0";
-      data= atoi(buffer);
+      data = readDataNew(2);
+      
       if(data!=0)
       {
        sollwert = data; 
@@ -244,11 +244,12 @@ void handleRequestNew()
 }
 
 void loop() {
-  checkSollwert(&sollwert);
+
+  //checkSollwert(&sollwert);
   //writeData(readPercent());
   
   //Serial.println(data);
-  handleRequest();
+  handleRequest(&sollwert);
   if((timeSinceBootup - lastMovement) > timeBetweenMovement)
   {
     calculateMovement();
