@@ -6,7 +6,6 @@
 static float sollwert;
 float hysterese;
 
-int timeBetweenMovement;
 float errorToDelayFaktor;
 bool verbose = false;
 
@@ -14,13 +13,6 @@ bool verbose = false;
 int zylinderAuf = 2;
 int zylinderZu = 3;
 int wasserstandInput = A1;
-
-// Time Data
-struct tm date;
-unsigned long unixtime;
-unsigned long int unixtimeStart = 1636657764;
-unsigned long timeSinceBootup;
-int lastMovement;
 
 
 // Seriell Kommunikation
@@ -54,9 +46,8 @@ void setup() {
   pinMode(En2, OUTPUT);
 
   sollwert = 69.0;
-  hysterese = 0.5;
-  timeBetweenMovement = 30;
-  errorToDelayFaktor = 45;
+  hysterese = 0.4;
+  errorToDelayFaktor = 25;
 }
 
 float readPercent(){
@@ -104,38 +95,38 @@ int readDataNew(int anzahlZeichen)
     buffer[i]=readData();  
   }
   
+  
   buffer[i]="\0";
-    
+  Serial.println(buffer);
   int data = atoi(buffer);
   return data;
 }
 
-void calculateMovement()
+int calculateMovement(float *sollwert)
 {
-  int timeToMove = (readPercent()-sollwert) * errorToDelayFaktor;
-
-  if(readPercent() < (sollwert - hysterese))
+  int timeToMove = (readPercent()-*sollwert) * errorToDelayFaktor;
+  if(readPercent() < (*sollwert - hysterese))
   {
     bewegeZylinderZu(abs(timeToMove));
     if(verbose)
     {
       Serial.println("Zylinder zu");
       Serial.print("Sollwert:\t");
-      Serial.println(sollwert);
+      Serial.println(*sollwert);
       Serial.print("Tatsächlich:\t");
       Serial.println(readPercent());
     }
   }
   else
   {
-    if(readPercent() > (sollwert + hysterese))
+    if(readPercent() > (*sollwert + hysterese))
     {
       bewegeZylinderAuf(abs(timeToMove));
       if(verbose)
       {
         Serial.println("Zylinder auf");
         Serial.print("Sollwert:\t");
-        Serial.println(sollwert);
+        Serial.println(*sollwert);
         Serial.print("Tatsächlich:\t");
         Serial.println(readPercent());
       }
@@ -146,27 +137,15 @@ void calculateMovement()
       {
         Serial.println("Im Rahmen");
         Serial.print("Sollwert:\t");
-        Serial.println(sollwert);
+        Serial.println(*sollwert);
         Serial.print("Tatsächlich:\t");
         Serial.println(readPercent());
       }
     }
   }
+  return timeToMove;
 }
 
-
-
-void checkSollwert(float *sollwert)
-{
-  if(date.tm_hour >= 18 || date.tm_hour <= 6)
-  {
-    *sollwert = 55.0;
-  }
-  else
-  {
-    *sollwert = 65.0;
-  }
-}
 
 void handleRequest(float *sollwert)
 {
@@ -192,7 +171,15 @@ void handleRequest(float *sollwert)
       }
     break;
     case 51:
-    // Set Hysterese 
+      delay(100);
+      data = readDataNew(2);
+      
+      if(data>0&&data<100)
+      {
+       //*sollwert = data; 
+       Serial.println("Hysterese");
+       Serial.println(hysterese);
+      }
     break;
     case 52:
     // Set Zeitfaktor
@@ -202,7 +189,8 @@ void handleRequest(float *sollwert)
       writeData(*sollwert);
     break;
     case 54:
-      //Serial.println("Zylinder Zu");
+      int timeToMove = calculateMovement(sollwert); 
+      writeData(timeToMove);    
     break;
   }
 }
@@ -214,7 +202,7 @@ void handleRequestNew()
   switch(request)
   {
     case 49:
-      //writeData(readPercent());
+      writeData(readPercent());
     break;
     case 50:
       //Set Sollwert
@@ -238,22 +226,14 @@ void handleRequestNew()
       writeData(sollwert);
     break;
     case 54:
-      //Serial.println("Zylinder Zu");
+      
     break;
   }
 }
 
 void loop() {
 
-  //checkSollwert(&sollwert);
-  //writeData(readPercent());
-  
-  //Serial.println(data);
   handleRequest(&sollwert);
-  if((timeSinceBootup - lastMovement) > timeBetweenMovement)
-  {
-    calculateMovement();
-    lastMovement = timeSinceBootup;
-  }
+
   delay(1000);
 }
