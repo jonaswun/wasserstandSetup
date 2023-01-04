@@ -1,0 +1,1333 @@
+[
+    {
+        "id": "fb97d55154615a25",
+        "type": "tab",
+        "label": "Wasserstand",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "6637bf43bad2b413",
+        "type": "influxdb out",
+        "z": "fb97d55154615a25",
+        "influxdb": "97e69dc8371f7f81",
+        "name": "",
+        "measurement": "wasserstandKanal",
+        "precision": "",
+        "retentionPolicy": "",
+        "database": "database",
+        "precisionV18FluxV20": "ms",
+        "retentionPolicyV18Flux": "",
+        "org": "organisation",
+        "bucket": "bucket",
+        "x": 1870,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "bd139bc03e68a82f",
+        "type": "function",
+        "z": "fb97d55154615a25",
+        "name": "calculate Wasserstand",
+        "func": "msg.payload = parseFloat(msg.payload)\nmsg.payload = 960.96 + (msg.payload*0.01)\nmsg.payload = msg.payload.toFixed(2)\nreturn msg",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1360,
+        "y": 240,
+        "wires": [
+            [
+                "43b12651369c96d4",
+                "8fca5968e8a916f4",
+                "153dfdb659b9f39d",
+                "6b30fada69f21de0"
+            ]
+        ]
+    },
+    {
+        "id": "43b12651369c96d4",
+        "type": "ui_chart",
+        "z": "fb97d55154615a25",
+        "name": "",
+        "group": "e8eac1a49ff2aa91",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "label": "Meter über N.N.",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "961.25",
+        "ymax": "962.65",
+        "removeOlder": "1",
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 1640,
+        "y": 240,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "e4e99525d192105b",
+        "type": "ui_button",
+        "z": "fb97d55154615a25",
+        "name": "",
+        "group": "e74df3314bfb2c95",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "label": "Get Wasserstand",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": ":wasserstand;",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "str",
+        "x": 330,
+        "y": 320,
+        "wires": [
+            [
+                "c414d49dcacc3114",
+                "13bb6e0d6be2834c"
+            ]
+        ]
+    },
+    {
+        "id": "c414d49dcacc3114",
+        "type": "serial request",
+        "z": "fb97d55154615a25",
+        "name": "",
+        "serial": "f0618872d2b64a4c",
+        "x": 550,
+        "y": 320,
+        "wires": [
+            [
+                "779b6619813566c6",
+                "54be062b4b69d1b4"
+            ]
+        ]
+    },
+    {
+        "id": "141eae38f4fa905b",
+        "type": "ui_text",
+        "z": "fb97d55154615a25",
+        "group": "d3145414f8188b98",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "name": "Show Sollwert",
+        "label": "Sollwert in cm ",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "className": "",
+        "x": 960,
+        "y": 780,
+        "wires": []
+    },
+    {
+        "id": "8fca5968e8a916f4",
+        "type": "ui_text",
+        "z": "fb97d55154615a25",
+        "group": "d3145414f8188b98",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "name": "Show Wasserstand",
+        "label": "Wasserstand",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "className": "",
+        "x": 1650,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "0f7b2256dfd66631",
+        "type": "ui_button",
+        "z": "fb97d55154615a25",
+        "name": "",
+        "group": "e74df3314bfb2c95",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "label": "Get Sollwert",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": ":getsollwert;",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "str",
+        "x": 310,
+        "y": 800,
+        "wires": [
+            [
+                "52e320babad70f42",
+                "097b7f4df4cf1388"
+            ]
+        ]
+    },
+    {
+        "id": "52e320babad70f42",
+        "type": "serial request",
+        "z": "fb97d55154615a25",
+        "name": "",
+        "serial": "f0618872d2b64a4c",
+        "x": 550,
+        "y": 800,
+        "wires": [
+            [
+                "bc34e4dbdd818485"
+            ]
+        ]
+    },
+    {
+        "id": "ef8ae59d18b47f3b",
+        "type": "ui_toast",
+        "z": "fb97d55154615a25",
+        "position": "top right",
+        "displayTime": "3",
+        "highlight": "",
+        "sendall": true,
+        "outputs": 0,
+        "ok": "OK",
+        "cancel": "",
+        "raw": false,
+        "className": "",
+        "topic": "",
+        "name": "",
+        "x": 1370,
+        "y": 780,
+        "wires": []
+    },
+    {
+        "id": "ea869227091e1e66",
+        "type": "function",
+        "z": "fb97d55154615a25",
+        "name": "parseFloat",
+        "func": "msg.payload = parseFloat(msg.payload.substring(1,msg.payload.length))\nreturn msg",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 770,
+        "y": 440,
+        "wires": [
+            [
+                "e0a68c9dc27b0581",
+                "96719f4b06775fb8",
+                "a9742e54335a6add",
+                "7f90877f34830560"
+            ]
+        ]
+    },
+    {
+        "id": "5af0e0b7b7364fab",
+        "type": "ui_button",
+        "z": "fb97d55154615a25",
+        "name": "",
+        "group": "e74df3314bfb2c95",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "label": "Bewege Zylinder",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": ":zylinder;",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "str",
+        "x": 330,
+        "y": 440,
+        "wires": [
+            [
+                "a928783318570109",
+                "96719f4b06775fb8"
+            ]
+        ]
+    },
+    {
+        "id": "a928783318570109",
+        "type": "serial request",
+        "z": "fb97d55154615a25",
+        "name": "",
+        "serial": "f0618872d2b64a4c",
+        "x": 550,
+        "y": 440,
+        "wires": [
+            [
+                "ea869227091e1e66",
+                "96719f4b06775fb8"
+            ]
+        ]
+    },
+    {
+        "id": "e0a68c9dc27b0581",
+        "type": "ui_text",
+        "z": "fb97d55154615a25",
+        "group": "d3145414f8188b98",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "name": "Show Time to move",
+        "label": "Zylinderbewegung [ms]",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "className": "",
+        "x": 1030,
+        "y": 440,
+        "wires": []
+    },
+    {
+        "id": "ead6e677b94c0574",
+        "type": "trigger",
+        "z": "fb97d55154615a25",
+        "name": "Send \"SetSollwert\"",
+        "op1": ":targetValue",
+        "op2": "",
+        "op1type": "str",
+        "op2type": "nul",
+        "duration": "250",
+        "extend": false,
+        "overrideDelay": false,
+        "units": "ms",
+        "reset": "",
+        "bytopic": "all",
+        "topic": "topic",
+        "outputs": 1,
+        "x": 570,
+        "y": 580,
+        "wires": [
+            [
+                "66b49e06b4e9516d",
+                "09154df532e1d2c2"
+            ]
+        ]
+    },
+    {
+        "id": "7eef6257d60710f8",
+        "type": "delay",
+        "z": "fb97d55154615a25",
+        "name": "Send Value after delay",
+        "pauseType": "delay",
+        "timeout": "1",
+        "timeoutUnits": "milliseconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 740,
+        "y": 660,
+        "wires": [
+            [
+                "31653adaef88c996"
+            ]
+        ]
+    },
+    {
+        "id": "31653adaef88c996",
+        "type": "function",
+        "z": "fb97d55154615a25",
+        "name": "toString",
+        "func": "msg.payload = String(msg.payload)\nmsg.payload += \";\"\nreturn msg",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 940,
+        "y": 660,
+        "wires": [
+            [
+                "66b49e06b4e9516d",
+                "09154df532e1d2c2"
+            ]
+        ]
+    },
+    {
+        "id": "5a121ac427aa95f2",
+        "type": "ui_slider",
+        "z": "fb97d55154615a25",
+        "name": "",
+        "label": "Sollwert in cm",
+        "tooltip": "",
+        "group": "e74df3314bfb2c95",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "outs": "end",
+        "topic": ":targetValue;",
+        "topicType": "str",
+        "min": "50",
+        "max": "100",
+        "step": 1,
+        "className": "",
+        "x": 320,
+        "y": 620,
+        "wires": [
+            [
+                "ead6e677b94c0574",
+                "8475a721a5ad5488"
+            ]
+        ]
+    },
+    {
+        "id": "66b49e06b4e9516d",
+        "type": "serial out",
+        "z": "fb97d55154615a25",
+        "name": "",
+        "serial": "f0618872d2b64a4c",
+        "x": 1190,
+        "y": 660,
+        "wires": []
+    },
+    {
+        "id": "2455b4b0be42160e",
+        "type": "inject",
+        "z": "fb97d55154615a25",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "40",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": ":wasserstand;",
+        "payloadType": "str",
+        "x": 120,
+        "y": 320,
+        "wires": [
+            [
+                "e4e99525d192105b"
+            ]
+        ]
+    },
+    {
+        "id": "2af5d47a849f5f0e",
+        "type": "inject",
+        "z": "fb97d55154615a25",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "30",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": ":zylinder;",
+        "payloadType": "str",
+        "x": 110,
+        "y": 440,
+        "wires": [
+            [
+                "5af0e0b7b7364fab"
+            ]
+        ]
+    },
+    {
+        "id": "bc34e4dbdd818485",
+        "type": "function",
+        "z": "fb97d55154615a25",
+        "name": "toString",
+        "func": "// 4 => offset from targetValue in cm to targetValue in percent \n\nmsg.payload = String(msg.payload.substring(1,msg.payload.length) - 4)\nreturn msg",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 720,
+        "y": 800,
+        "wires": [
+            [
+                "141eae38f4fa905b",
+                "ef8ae59d18b47f3b",
+                "097b7f4df4cf1388"
+            ]
+        ]
+    },
+    {
+        "id": "73f51b3c1deb8f57",
+        "type": "function",
+        "z": "fb97d55154615a25",
+        "name": "parseFloat",
+        "func": "msg.payload =  parseFloat(msg.payload)//(msg.payload.substring(1,msg.payload.length))\nreturn msg",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1090,
+        "y": 320,
+        "wires": [
+            [
+                "bd139bc03e68a82f",
+                "6637bf43bad2b413",
+                "54be062b4b69d1b4",
+                "2e650ad4d5d43b0e",
+                "2a3465d49c77e1c4"
+            ]
+        ]
+    },
+    {
+        "id": "779b6619813566c6",
+        "type": "function",
+        "z": "fb97d55154615a25",
+        "name": "getWasserstandVoltage",
+        "func": "  \n    // normalerweise empfängt Node red ein \">\" vor dem Wasserstand in Prozent\n    msg.payload =  msg.payload.substring(1,msg.payload.length)\n\n\n   \n    // nach einem Deploy ist das erste zeichen der Nachricht direkt eine Zahl\n//    msg.payload = msg.payload.substring(0,msg.payload.length)\n\nreturn msg",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 810,
+        "y": 320,
+        "wires": [
+            [
+                "73f51b3c1deb8f57"
+            ]
+        ]
+    },
+    {
+        "id": "c077e1d90f4df051",
+        "type": "function",
+        "z": "fb97d55154615a25",
+        "name": "getPowerVoltage",
+        "func": "msg.payload =  (msg.payload.substring(6,msg.payload.length-3))\nreturn msg",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 570,
+        "y": 160,
+        "wires": [
+            [
+                "1b1ac61c4f28692c"
+            ]
+        ]
+    },
+    {
+        "id": "1b1ac61c4f28692c",
+        "type": "function",
+        "z": "fb97d55154615a25",
+        "name": "parseFloat",
+        "func": "msg.payload =  parseFloat(msg.payload)//(msg.payload.substring(1,msg.payload.length))\nreturn msg",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 790,
+        "y": 160,
+        "wires": [
+            [
+                "fdbc065b14ef5bed"
+            ]
+        ]
+    },
+    {
+        "id": "fdbc065b14ef5bed",
+        "type": "influxdb out",
+        "z": "fb97d55154615a25",
+        "influxdb": "94a45cadc5c8d8dd",
+        "name": "",
+        "measurement": "powerVoltage",
+        "precision": "",
+        "retentionPolicy": "",
+        "database": "database",
+        "precisionV18FluxV20": "ms",
+        "retentionPolicyV18Flux": "",
+        "org": "organisation",
+        "bucket": "bucket",
+        "x": 1040,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "13bb6e0d6be2834c",
+        "type": "debug",
+        "z": "fb97d55154615a25",
+        "name": "Debug Node",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 550,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "96719f4b06775fb8",
+        "type": "debug",
+        "z": "fb97d55154615a25",
+        "name": "Debug Node",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1010,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "09154df532e1d2c2",
+        "type": "debug",
+        "z": "fb97d55154615a25",
+        "name": "Debug Node",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1190,
+        "y": 620,
+        "wires": []
+    },
+    {
+        "id": "097b7f4df4cf1388",
+        "type": "debug",
+        "z": "fb97d55154615a25",
+        "name": "Debug Node",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 950,
+        "y": 880,
+        "wires": []
+    },
+    {
+        "id": "54be062b4b69d1b4",
+        "type": "debug",
+        "z": "fb97d55154615a25",
+        "name": "Debug Node",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 770,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "df3dd9870627a5eb",
+        "type": "pushbullet",
+        "z": "fb97d55154615a25",
+        "config": "60aa930be8d9e1cc",
+        "pushtype": "note",
+        "title": "",
+        "chan": "prbkdlrx8anyw8fzwu5n",
+        "name": "Channel Wasserstand",
+        "x": 1920,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "153dfdb659b9f39d",
+        "type": "function",
+        "z": "fb97d55154615a25",
+        "name": "setupPushBulletMessage",
+        "func": "wasserstandMax = 961.70\nwasserstandMin = 961.50\nmsg.topic = \"Wasserstand Kanal\"\n\nif(msg.payload >= wasserstandMax && !global.get(\"g_tooHigh\"))\n{\n    msg.payload = \"Wasserstand zu hoch: \" + msg.payload +\"\\nStellfalle öffnen\";\n    global.set(\"g_tooHigh\", true);\n}\nelse if(msg.payload <= wasserstandMin && !global.get(\"g_tooLow\"))\n{\n    msg.payload = \"Wasserstand zu niedrig\" + msg.payload + \"\\nStellfallen zu machen bzw. Rechen säubern\"\n    global.set(\"g_tooLow\", true)\n}\nelse if(msg.payload < wasserstandMax && msg.payload > wasserstandMin)\n{\n    global.set(\"g_tooHigh\", false);\n    global.set(\"g_tooLow\", false);\n    msg = 0; \n}\nelse\n{\n    //msg.payload = \"Wasserstand: \" + msg.payload;\n    //msg.topic = \"Testnachricht\"\n    msg = 0; \n}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1670,
+        "y": 120,
+        "wires": [
+            [
+                "6b30fada69f21de0",
+                "df3dd9870627a5eb"
+            ]
+        ]
+    },
+    {
+        "id": "6b30fada69f21de0",
+        "type": "debug",
+        "z": "fb97d55154615a25",
+        "name": "Debug Node",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1890,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "8475a721a5ad5488",
+        "type": "function",
+        "z": "fb97d55154615a25",
+        "name": "parseFloat",
+        "func": "// 4 => offset from targetValue in cm to targetValue in percent \nmsg.payload = msg.payload + 4\nreturn msg",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 510,
+        "y": 660,
+        "wires": [
+            [
+                "7eef6257d60710f8"
+            ]
+        ]
+    },
+    {
+        "id": "4c76eb2b2659cf1b",
+        "type": "ui_button",
+        "z": "fb97d55154615a25",
+        "name": "",
+        "group": "e74df3314bfb2c95",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "label": "Get Leistung",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": ":wasserstand;",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "str",
+        "x": 270,
+        "y": 900,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "a3538cef740c34a1",
+        "type": "inject",
+        "z": "fb97d55154615a25",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "40",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": ":power;",
+        "payloadType": "str",
+        "x": 60,
+        "y": 900,
+        "wires": [
+            [
+                "4c76eb2b2659cf1b"
+            ]
+        ]
+    },
+    {
+        "id": "a16dec5a393604ce",
+        "type": "pythonshell in",
+        "z": "fb97d55154615a25",
+        "name": "FetchData",
+        "pyfile": "/home/pi/fetchWasserstandData/fetchData.py",
+        "virtualenv": "",
+        "continuous": false,
+        "stdInData": false,
+        "x": 510,
+        "y": 1380,
+        "wires": [
+            [
+                "75c2bd0badd67c0f",
+                "e6f29efde1f19e55"
+            ]
+        ]
+    },
+    {
+        "id": "966b380a8df758d1",
+        "type": "e-mail",
+        "z": "fb97d55154615a25",
+        "server": "smtp.gmail.com",
+        "port": "465",
+        "secure": true,
+        "tls": true,
+        "name": "wunderle.jonas@gmail.com",
+        "dname": "",
+        "x": 1540,
+        "y": 1400,
+        "wires": []
+    },
+    {
+        "id": "3d241a891a7635ae",
+        "type": "file in",
+        "z": "fb97d55154615a25",
+        "name": "",
+        "filename": "",
+        "format": "",
+        "chunk": false,
+        "sendError": false,
+        "encoding": "none",
+        "allProps": false,
+        "x": 960,
+        "y": 1320,
+        "wires": [
+            [
+                "94895a536fe5ccb5"
+            ]
+        ]
+    },
+    {
+        "id": "94895a536fe5ccb5",
+        "type": "function",
+        "z": "fb97d55154615a25",
+        "name": "",
+        "func": "msg.content = \"Wasserstand Daten\"\n\nmsg.attachments = [\n        {\n        filename : \"March.png\",\n        content : msg.payload,\n        },\n        \n        {\n        filename : \"March.csv\",\n        content : msg.payload,\n        }\n    ]\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1260,
+        "y": 1380,
+        "wires": [
+            [
+                "0cba692b4568e2e9",
+                "966b380a8df758d1",
+                "e2ce59bc0fa4d4d0"
+            ]
+        ]
+    },
+    {
+        "id": "0cba692b4568e2e9",
+        "type": "debug",
+        "z": "fb97d55154615a25",
+        "name": "Debug Node",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1490,
+        "y": 1360,
+        "wires": []
+    },
+    {
+        "id": "da22203ab86c04b8",
+        "type": "file in",
+        "z": "fb97d55154615a25",
+        "name": "",
+        "filename": "",
+        "format": "",
+        "chunk": false,
+        "sendError": false,
+        "encoding": "none",
+        "allProps": false,
+        "x": 960,
+        "y": 1440,
+        "wires": [
+            [
+                "94895a536fe5ccb5"
+            ]
+        ]
+    },
+    {
+        "id": "75c2bd0badd67c0f",
+        "type": "function",
+        "z": "fb97d55154615a25",
+        "name": "",
+        "func": "msg.filename = \"/home/pi/fetchWasserstandData/\" + msg.payload +\".csv\"\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 720,
+        "y": 1320,
+        "wires": [
+            [
+                "3d241a891a7635ae"
+            ]
+        ]
+    },
+    {
+        "id": "e6f29efde1f19e55",
+        "type": "function",
+        "z": "fb97d55154615a25",
+        "name": "",
+        "func": "msg.filename = \"/home/pi/fetchWasserstandData/\" + msg.payload +\".png\"\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 720,
+        "y": 1440,
+        "wires": [
+            [
+                "da22203ab86c04b8"
+            ]
+        ]
+    },
+    {
+        "id": "a31b961839c0b8ad",
+        "type": "cronplus",
+        "z": "fb97d55154615a25",
+        "name": "",
+        "outputField": "payload",
+        "timeZone": "",
+        "persistDynamic": false,
+        "commandResponseMsgOutput": "output1",
+        "outputs": 1,
+        "options": [
+            {
+                "name": "schedule1",
+                "topic": "topic1",
+                "payloadType": "default",
+                "payload": "",
+                "expressionType": "cron",
+                "expression": "0 0 9 1 * * *",
+                "location": "",
+                "offset": "0",
+                "solarType": "all",
+                "solarEvents": "sunrise,sunset"
+            }
+        ],
+        "x": 300,
+        "y": 1380,
+        "wires": [
+            [
+                "a16dec5a393604ce"
+            ]
+        ]
+    },
+    {
+        "id": "e2ce59bc0fa4d4d0",
+        "type": "e-mail",
+        "z": "fb97d55154615a25",
+        "server": "smtp.gmail.com",
+        "port": "465",
+        "secure": true,
+        "tls": true,
+        "name": "tanja_wunderle@web.de",
+        "dname": "",
+        "x": 1530,
+        "y": 1460,
+        "wires": []
+    },
+    {
+        "id": "a9742e54335a6add",
+        "type": "influxdb out",
+        "z": "fb97d55154615a25",
+        "influxdb": "97e69dc8371f7f81",
+        "name": "",
+        "measurement": "timeToMove",
+        "precision": "",
+        "retentionPolicy": "",
+        "database": "database",
+        "precisionV18FluxV20": "ms",
+        "retentionPolicyV18Flux": "",
+        "org": "organisation",
+        "bucket": "bucket",
+        "x": 1210,
+        "y": 540,
+        "wires": []
+    },
+    {
+        "id": "576807c0ca3f0d47",
+        "type": "influxdb out",
+        "z": "fb97d55154615a25",
+        "influxdb": "97e69dc8371f7f81",
+        "name": "",
+        "measurement": "leistung",
+        "precision": "",
+        "retentionPolicy": "",
+        "database": "database",
+        "precisionV18FluxV20": "ms",
+        "retentionPolicyV18Flux": "",
+        "org": "organisation",
+        "bucket": "bucket",
+        "x": 640,
+        "y": 1100,
+        "wires": []
+    },
+    {
+        "id": "2a3465d49c77e1c4",
+        "type": "influxdb out",
+        "z": "fb97d55154615a25",
+        "influxdb": "879a69024d3ef9c3",
+        "name": "",
+        "measurement": "wasserstandKanal",
+        "precision": "",
+        "retentionPolicy": "",
+        "database": "database",
+        "precisionV18FluxV20": "ms",
+        "retentionPolicyV18Flux": "",
+        "org": "organisation",
+        "bucket": "bucket",
+        "x": 1920,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "2e650ad4d5d43b0e",
+        "type": "debug",
+        "z": "fb97d55154615a25",
+        "name": "Debug Node",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1590,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "7f90877f34830560",
+        "type": "influxdb out",
+        "z": "fb97d55154615a25",
+        "influxdb": "879a69024d3ef9c3",
+        "name": "",
+        "measurement": "timeToMove",
+        "precision": "",
+        "retentionPolicy": "",
+        "database": "database",
+        "precisionV18FluxV20": "ms",
+        "retentionPolicyV18Flux": "",
+        "org": "organisation",
+        "bucket": "bucket",
+        "x": 1270,
+        "y": 580,
+        "wires": []
+    },
+    {
+        "id": "779f934f26b60d0a",
+        "type": "serial in",
+        "z": "fb97d55154615a25",
+        "name": "ESP32 Leistung",
+        "serial": "1d5ff0d737421f56",
+        "x": 140,
+        "y": 1120,
+        "wires": [
+            [
+                "4b62d841bcd5ce84",
+                "9a889f82ba64be2e"
+            ]
+        ]
+    },
+    {
+        "id": "4b62d841bcd5ce84",
+        "type": "debug",
+        "z": "fb97d55154615a25",
+        "name": "Debug Node",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 370,
+        "y": 1140,
+        "wires": []
+    },
+    {
+        "id": "9a889f82ba64be2e",
+        "type": "function",
+        "z": "fb97d55154615a25",
+        "name": "",
+        "func": "obj = JSON.parse(msg.payload);\nmsg.payload = obj[\"watt\"];\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 330,
+        "y": 1200,
+        "wires": [
+            [
+                "4b62d841bcd5ce84",
+                "576807c0ca3f0d47",
+                "80154831ec7ef60c"
+            ]
+        ]
+    },
+    {
+        "id": "8d91a59540ddab44",
+        "type": "influxdb out",
+        "z": "fb97d55154615a25",
+        "influxdb": "97e69dc8371f7f81",
+        "name": "",
+        "measurement": "lastInterrupt",
+        "precision": "",
+        "retentionPolicy": "",
+        "database": "database",
+        "precisionV18FluxV20": "ms",
+        "retentionPolicyV18Flux": "",
+        "org": "organisation",
+        "bucket": "bucket",
+        "x": 650,
+        "y": 1140,
+        "wires": []
+    },
+    {
+        "id": "d97d1c7e6a70e67a",
+        "type": "influxdb out",
+        "z": "fb97d55154615a25",
+        "influxdb": "97e69dc8371f7f81",
+        "name": "",
+        "measurement": "currentInterrupt",
+        "precision": "",
+        "retentionPolicy": "",
+        "database": "database",
+        "precisionV18FluxV20": "ms",
+        "retentionPolicyV18Flux": "",
+        "org": "organisation",
+        "bucket": "bucket",
+        "x": 660,
+        "y": 1180,
+        "wires": []
+    },
+    {
+        "id": "6c38848c9446c773",
+        "type": "influxdb out",
+        "z": "fb97d55154615a25",
+        "influxdb": "97e69dc8371f7f81",
+        "name": "",
+        "measurement": "nextInterrupt",
+        "precision": "",
+        "retentionPolicy": "",
+        "database": "database",
+        "precisionV18FluxV20": "ms",
+        "retentionPolicyV18Flux": "",
+        "org": "organisation",
+        "bucket": "bucket",
+        "x": 650,
+        "y": 1220,
+        "wires": []
+    },
+    {
+        "id": "80154831ec7ef60c",
+        "type": "influxdb out",
+        "z": "fb97d55154615a25",
+        "influxdb": "879a69024d3ef9c3",
+        "name": "",
+        "measurement": "leistung",
+        "precision": "",
+        "retentionPolicy": "",
+        "database": "database",
+        "precisionV18FluxV20": "ms",
+        "retentionPolicyV18Flux": "",
+        "org": "organisation",
+        "bucket": "bucket",
+        "x": 690,
+        "y": 1060,
+        "wires": []
+    },
+    {
+        "id": "97e69dc8371f7f81",
+        "type": "influxdb",
+        "hostname": "192.168.2.103",
+        "port": "8086",
+        "protocol": "http",
+        "database": "wasserstandNeu",
+        "name": "InfluxServer",
+        "usetls": false,
+        "tls": "",
+        "influxdbVersion": "1.x",
+        "url": "http://localhost:8086",
+        "rejectUnauthorized": true
+    },
+    {
+        "id": "e8eac1a49ff2aa91",
+        "type": "ui_group",
+        "name": "Wasserstand Verlauf",
+        "tab": "24d5f766732603c4",
+        "order": 3,
+        "disp": true,
+        "width": "13",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "e74df3314bfb2c95",
+        "type": "ui_group",
+        "name": "Einstellungen",
+        "tab": "24d5f766732603c4",
+        "order": 1,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "f0618872d2b64a4c",
+        "type": "serial-port",
+        "serialport": "/dev/ttyUSB0",
+        "serialbaud": "38400",
+        "databits": "8",
+        "parity": "none",
+        "stopbits": "1",
+        "waitfor": "",
+        "dtr": "none",
+        "rts": "none",
+        "cts": "none",
+        "dsr": "none",
+        "newline": "\\n",
+        "bin": "false",
+        "out": "char",
+        "addchar": "\\r",
+        "responsetimeout": "10000"
+    },
+    {
+        "id": "d3145414f8188b98",
+        "type": "ui_group",
+        "name": "Aktuelle Werte",
+        "tab": "24d5f766732603c4",
+        "order": 2,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "94a45cadc5c8d8dd",
+        "type": "influxdb",
+        "hostname": "192.168.2.179",
+        "port": "8086",
+        "protocol": "http",
+        "database": "wasserstandKanal",
+        "name": "InfluxDB",
+        "usetls": false,
+        "tls": "",
+        "influxdbVersion": "1.x",
+        "url": "http://localhost:8086",
+        "rejectUnauthorized": true
+    },
+    {
+        "id": "60aa930be8d9e1cc",
+        "type": "pushbullet-config",
+        "name": "PushBullet"
+    },
+    {
+        "id": "879a69024d3ef9c3",
+        "type": "influxdb",
+        "hostname": "192.168.2.241",
+        "port": "8086",
+        "protocol": "http",
+        "database": "wasserstandNeu",
+        "name": "Influx-Gigabyte-Wasserstand",
+        "usetls": false,
+        "tls": "",
+        "influxdbVersion": "1.x",
+        "url": "http://localhost:8086",
+        "rejectUnauthorized": true
+    },
+    {
+        "id": "1d5ff0d737421f56",
+        "type": "serial-port",
+        "serialport": "/dev/ttyUSB1",
+        "serialbaud": "9600",
+        "databits": "8",
+        "parity": "none",
+        "stopbits": "1",
+        "waitfor": "",
+        "dtr": "none",
+        "rts": "none",
+        "cts": "none",
+        "dsr": "none",
+        "newline": "\\n",
+        "bin": "false",
+        "out": "char",
+        "addchar": "",
+        "responsetimeout": "10000"
+    },
+    {
+        "id": "24d5f766732603c4",
+        "type": "ui_tab",
+        "name": "Wasserstand Settings",
+        "icon": "dashboard",
+        "order": 1,
+        "disabled": false,
+        "hidden": false
+    }
+]
